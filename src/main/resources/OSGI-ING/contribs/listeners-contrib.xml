@@ -1,0 +1,12 @@
+<component name="fr.univlille2.ecm.listener.contrib.ScannerImportsListener">
+	<require>studio.extensions.lille2-univ-ecm</require>
+  <extension target="org.nuxeo.ecm.core.event.EventServiceComponent"
+    point="listener">
+
+    <listener name="scannerimportslistener" async="true" postCommit="true"
+      class="fr.univlille2.ecm.ScannerImportsListener" order="100">
+      <event>documentModified</event>
+    </listener>
+  </extension>
+
+</component>
