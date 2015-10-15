@@ -1,50 +1,48 @@
 package fr.univlille2.ecm.mail;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.nuxeo.ecm.automation.core.mail.Composer;
-import org.nuxeo.ecm.automation.core.mail.Mailer.Message;
+import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
-public class ScanFolderUpdateNotifier {
-	
-	private DocumentModel doc;
-	
+public class ScanFolderUpdateNotifier extends DocumentNotifier {
+
+	private static final String TEMPLATE = "<p>Bonjour,</p>"+
+	"<p>Vous avez généré un code de numérisation pour le répertoire <a href=\"${docURL}\">${docTitle}</a></p>"+
+	"<p>Le code correspondant est le <b>${docRepoID}</b></p>"+
+	"<p>Pour numériser un document vers ce dépôt, utilisez la fonction de nommage du copieur et préfixez par ce code le nom de votre document.</p>"+
+	"<p>L'automate GED vous souhaite une bonne journée.</p>";
 	private static final Log logger =  LogFactory.getLog(ScanFolderUpdateNotifier.class);
-	
-	private static final Composer COMPOSER = new Composer();
-	
-	public ScanFolderUpdateNotifier(DocumentModel folder){
-		this.doc= folder;
-	}
-
-	/**
-	 *  Construction du corps du message 
-	 *  TODO >> Get from FTL template */
-	protected String getContent(DocumentModel doc) {
-		StringBuilder sB = new StringBuilder();
-		sB.append("<P>");
-		sB.append("Bonjour,");
-		sB.append("</P>");
-		sB.append("<P>");
-		// TODO contenu du message
-		sB.append("</P>");
-		sB.append("<P>");
-		sB.append("L'automate G.E.D. vous souhaite une bonne journ&eacute;e.");
-		sB.append("</P>");
-		return sB.toString();
-	}
-
-	protected Message createMessage(String message, Map<String, Object> map)
-			throws Exception {
-		return COMPOSER.newHtmlMessage(message, map);
-	}
-
-	protected void sendMail(DocumentModel doc) throws Exception {
 
 	
+	public ScanFolderUpdateNotifier(DocumentModel doc, CoreSession session) {
+		super(doc, session);
+	}
+	
+	@Override
+	protected String getContent(){
+		return TEMPLATE;
+	}
+	
+	@Override
+	protected String getObject() throws ClientException{
+		return "Numériser dans le répertoire " + doc.getTitle();
+	}
+	
+	@Override
+	protected List<String> getRecipientsAddresses() {
+		List<String> recipients = new ArrayList<String>();
+		try {
+			recipients.add(userManager.getPrincipal(session.getPrincipal().getName()).getEmail());
+		} catch (ClientException e) {
+			logger.error("Error adding recipient address for user " + session.getPrincipal().getName());
+		}
+		return recipients;
+		
 	}
 
 

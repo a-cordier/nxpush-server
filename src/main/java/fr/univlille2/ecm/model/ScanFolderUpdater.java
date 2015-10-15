@@ -5,10 +5,12 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.DocumentRef;
+import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import fr.univlille2.ecm.actions.ScanRepoIdGenerator;
 import fr.univlille2.ecm.random.PseudoRandomizer;
@@ -27,30 +29,42 @@ public class ScanFolderUpdater {
     	this.session = session;
     }
     
-    /** Generate id if needed and set document meta data **/
-    public void updateDocument() throws DocumentException{
+    /** Generate id if needed and set document meta data 
+     * @throws ClientException 
+     * @throws PropertyException **/
+    public void updateDocument() throws DocumentException, PropertyException, ClientException{
     	if(!folder.isFolder()){
     		throw new DocumentException("Document is not a folder and can not be used as a scan folder");
     	} 
-    	String id = folder.getProperty("scan:targetId").toString();
+    	String id =  (String)folder.getProperties("ul2Demat").get("scan:targetId");
+    	logger.debug(String.format("document %s can is identified as a scan destination with id %s",folder.getTitle(), id));
     	if(id !=null && !id.isEmpty()){
     		return;
     	}	
 		do{ // let's insure id is unique
 			id = generateId();
 		} while(exists(id));	
-		folder.setPropertyValue("scan:targetId", id);	
+    	logger.debug(String.format("document %s can is identified as a scan destination with generated id %s",folder.getTitle(), id));
+		folder.setPropertyValue("ul2Demat:targetId", id);	
+		folder = session.saveDocument(folder);
+    	logger.debug(String.format("after saving document %s can is identified as a scan destination with generated id %s",folder.getTitle(), id));
     }
     
-	/** checks if an other document is flagged with this code. */
-	private boolean exists(String code){
+	/** checks if an other document is flagged with this code. 
+	 * @throws ClientException */
+	private boolean exists(String code) throws ClientException{
+		logger.debug("Find out if exists");
 		String query = buildQuery(code);
+		logger.debug("Query: " + query);
 		/* Query is executed unrestricted as we want to fetch among documents that we do not own */
 		UnrestrictedQueryExecutor queryExecutor = new UnrestrictedQueryExecutor(session);
-		DocumentRef result = queryExecutor.query(query).get(0).getRef();
-		if(result!=null){
+		logger.debug("Using queryExecutor to execute query");
+		DocumentModelList result = queryExecutor.query(query);
+		logger.debug("Query results with ref " + result);
+		if(null!=result && result.size()!=0){
+			logger.debug("getting document");
 			logger.debug(String.format("Found document with same repoId : %s", 
-					session.getDocument(result).getPathAsString()));
+					session.getDocument(result.get(0).getRef()).getPathAsString()));
 			return true;
 		}
 		return false;

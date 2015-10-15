@@ -1,5 +1,7 @@
 package fr.univlille2.ecm.model;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModelList;
@@ -13,6 +15,9 @@ public class UnrestrictedQueryExecutor extends UnrestrictedSessionRunner {
     /** the result of the unrestricted query **/
     private DocumentModelList resultSet;
     
+	/** logger. **/
+    private static final Log logger = LogFactory.getLog(UnrestrictedQueryExecutor.class); 
+    
 	public UnrestrictedQueryExecutor(CoreSession session) {
 		super(session);
 	}
@@ -20,27 +25,23 @@ public class UnrestrictedQueryExecutor extends UnrestrictedSessionRunner {
 	@Override
 	public void run() throws ClientException {
 		if(query!=null){
+			logger.debug("running query unrestricted");
 			resultSet = session.query(query);
 		}
 	}
 	
 	public DocumentModelList query(String query){
-		DocumentModelList out = run(query);
-		clean();
-		return out;
+		return run(query);
 	}
 	
 	private DocumentModelList run(String query){
 		this.query = query;
-		runUnrestricted();
+		try {
+			runUnrestricted();
+		} catch (ClientException e) {
+			logger.error("Error runing unrestricted query: " + e.getMessage());
+		}
+		logger.debug("returning result set - size " + resultSet.size() );
 		return resultSet;
 	}
-	
-	private void clean(){
-		this.query = null;
-		this.resultSet = null;
-	}
-	
-	
-
 }
