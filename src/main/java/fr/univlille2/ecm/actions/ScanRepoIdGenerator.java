@@ -69,7 +69,8 @@ public class ScanRepoIdGenerator {
 	 * @return
 	 */
 	public boolean accept() {
-		return true;// doc.isFolder();
+		logger.debug(getCurrentDocument().getType());
+		return getCurrentDocument().getType().equals("Folder");
 	}
 
 	public DocumentModel getCurrentDocument() {
