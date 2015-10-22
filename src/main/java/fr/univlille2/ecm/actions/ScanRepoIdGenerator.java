@@ -32,17 +32,14 @@ public class ScanRepoIdGenerator {
 	@In(create = true)
 	protected NavigationContext navigationContext;
 
-	private DocumentModel doc;
-
 	/** logger. **/
 	private static final Log logger = LogFactory
 			.getLog(ScanRepoIdGenerator.class);
 
 	public void doGet() throws Exception {
 		logger.debug("Action triggered");
-		doc = navigationContext.getCurrentDocument();
-		ScanFolderUpdater updater = new ScanFolderUpdater(doc, documentManager);
-		ScanFolderUpdateNotifier notifier = new ScanFolderUpdateNotifier(doc,
+		ScanFolderUpdater updater = new ScanFolderUpdater(doc(), documentManager);
+		ScanFolderUpdateNotifier notifier = new ScanFolderUpdateNotifier(doc(),
 				documentManager);
 		try {
 			logger.debug("Updating document");
@@ -69,15 +66,11 @@ public class ScanRepoIdGenerator {
 	 * @return
 	 */
 	public boolean accept() {
-		logger.debug(getCurrentDocument().getType());
-		return getCurrentDocument().getType().equals("Folder");
+		return doc().getType().equals("Folder");
 	}
 
-	public DocumentModel getCurrentDocument() {
-		if (doc == null) {
-			doc = navigationContext.getCurrentDocument();
-		}
-		return doc;
+	public DocumentModel doc() {
+		return navigationContext.getCurrentDocument();
 	}
 	
 
