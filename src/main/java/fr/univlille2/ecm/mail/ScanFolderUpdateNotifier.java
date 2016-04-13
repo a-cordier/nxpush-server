@@ -8,7 +8,11 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-
+/**
+ * 
+ * @author acordier
+ * @date 13 avr. 2016
+ */
 public class ScanFolderUpdateNotifier extends DocumentNotifier {
 
 	private static final String TEMPLATE = "<p>Bonjour,</p>"+

@@ -17,6 +17,15 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 
+/**
+ * Création d'une page de couverture 
+ * contenant la représentation codée
+ * de l'identifiant du document référençant 
+ * le conteneur courant depuis lequel est déclenché
+ * l'appel à CoverBuilder
+ * @author acordier
+ * @date 13 avr. 2016
+ */
 public class CoverBuilder {
 
 	private String docTitle, docPath, user, domainName, docId;

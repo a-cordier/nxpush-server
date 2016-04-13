@@ -25,9 +25,18 @@ import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
 
+import fr.univlille2.ecm.actions.CoverGenerator;
 import fr.univlille2.ecm.cover.Constants;
 import fr.univlille2.ecm.cover.CoverParser;
 
+/**
+ * Routage d'un document numérisé:
+ *  première tentative basée sur la page de couverture
+ *  seconde tentative basée sur un code de préfix 
+ *   @see CoverGenerator ScanRepoIdGenerator
+ * @author acordier
+ * @date 13 avr. 2016
+ */
 public class DocumentRouter {
 
 	private DocumentModel sourceDocument;

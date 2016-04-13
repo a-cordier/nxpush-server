@@ -17,10 +17,9 @@ import fr.univlille2.ecm.mail.ScanFolderUpdateNotifier;
 import fr.univlille2.ecm.model.ScanFolderUpdater;
 
 /**
- * Will manage a simple action.
  * 
  * @author acordier
- * @see OSGI-INF/contribs/actions-contribs.xml
+ * @date 13 avr. 2016
  */
 @Name("scanRepoIdGenerator")
 @Scope(ScopeType.CONVERSATION)
@@ -46,22 +45,22 @@ public class ScanRepoIdGenerator {
 			updater.updateDocument();
 			notifier.sendMail();
 		} catch (DocumentException e) {
-			logger.error(e.getMessage());
+			logger.error(e);
 			throw e;
 		} catch (PropertyException e) {
-			logger.error(e.getMessage());
+			logger.error(e);
 			throw e;
 		} catch (ClientException e) {
-			logger.error(e.getMessage());
+			logger.error(e);
 			throw e;
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e);
 			throw e;
 		}
 	}
 
 	/**
-	 * Action filter.
+	 * Affiché uniquement pour le type "Folder"
 	 * 
 	 * @return
 	 */

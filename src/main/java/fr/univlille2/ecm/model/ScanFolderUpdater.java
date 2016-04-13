@@ -14,7 +14,11 @@ import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import fr.univlille2.ecm.actions.ScanRepoIdGenerator;
 import fr.univlille2.ecm.random.PseudoRandomizer;
-
+/**
+ * 
+ * @author acordier
+ * @date 13 avr. 2016
+ */
 public class ScanFolderUpdater {
 	
 	/** logger. **/

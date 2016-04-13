@@ -16,7 +16,11 @@ import org.nuxeo.ecm.platform.ui.web.util.BaseURL;
 import org.nuxeo.ecm.platform.ui.web.util.ComponentUtils;
 
 import fr.univlille2.ecm.cover.CoverBuilder;
-
+/**
+ * 
+ * @author acordier
+ * @date 13 avr. 2016
+ */
 public class WebUiFileDownloader {
 	
 	private static final Log logger = LogFactory.getLog(CoverBuilder.class);

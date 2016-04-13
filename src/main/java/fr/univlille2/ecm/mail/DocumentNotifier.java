@@ -13,7 +13,11 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
-
+/**
+ * 
+ * @author acordier
+ * @date 13 avr. 2016
+ */
 public abstract class DocumentNotifier {
 	
 	private static final Log logger =  LogFactory.getLog(DocumentNotifier.class);

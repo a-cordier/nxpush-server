@@ -21,19 +21,14 @@ import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.platform.ui.web.api.NavigationContext;
 import org.nuxeo.ecm.webapp.documentsLists.DocumentsListsManager;
 
+import fr.univlille2.ecm.cover.Constants;
 import fr.univlille2.ecm.cover.CoverBuilder;
-import fr.univlille2.ecm.cover.QuickResponseCodingStrategy;
 import fr.univlille2.ecm.webui.WebUiFileDownloader;
 
 /**
- *
- * Code skeleton for a Seam bean that will manage a simple action.
- * This can be used to :
- *  - do a navigation
- *  - do some modification on the currentDocument (or other docs)
- *  - create new documents
- *   - send/retrive info from an external service
- *   - ...
+ * 
+ * @author acordier
+ * @date 13 avr. 2016
  */
 @Name("coverGenerator")
 @Scope(ScopeType.EVENT)
@@ -59,15 +54,19 @@ public class CoverGenerator implements Serializable {
     protected DocumentsListsManager documentsListsManager;
 
     /**
-     * Generation de pdf contenant quelques informations 
-     * utiles sur le document ainsi qu'une représentation 
-     * au format code 128 de l'identifiant unique du document
+     * Generation d'un pdf contenant quelques informations 
+     * sur le document ainsi qu'une représentation 
+     * codée de l'identifiant unique du document
      * @return
      */
     public String doGet() {
     	try {
-			WebUiFileDownloader.downloadFile(new CoverBuilder(documentManager, doc()).getCover(new QuickResponseCodingStrategy()));
+			WebUiFileDownloader.downloadFile(new CoverBuilder(documentManager, doc()).getCover(Constants.CODING_STRATEGY.newInstance()));
 		} catch (IOException | ClientException e) {
+			logger.error(e);
+		} catch (InstantiationException e) {
+			logger.error(e);
+		} catch (IllegalAccessException e) {
 			logger.error(e);
 		}
         return null;

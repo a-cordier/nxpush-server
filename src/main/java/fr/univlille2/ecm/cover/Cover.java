@@ -15,6 +15,11 @@ import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 
+/**
+ * Contenu de la page de couverture
+ * @author acordier
+ * @date 13 avr. 2016
+ */
 public class Cover extends Document{
 	
 	private CodingStrategy encoder;

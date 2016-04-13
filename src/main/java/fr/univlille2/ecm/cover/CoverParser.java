@@ -9,6 +9,12 @@ import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.itextpdf.text.pdf.parser.RenderListener;
 import com.itextpdf.text.pdf.parser.TextRenderInfo;
 
+/**
+ * Extraction des informations d'une page au format 
+ * pdf et recherche de QrCode
+ * @author acordier
+ * @date 13 avr. 2016
+ */
 public class CoverParser {
 
 	private Exception error;

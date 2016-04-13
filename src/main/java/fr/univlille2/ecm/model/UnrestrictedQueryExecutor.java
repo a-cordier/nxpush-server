@@ -6,7 +6,11 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
-
+/**
+ * 
+ * @author acordier
+ * @date 13 avr. 2016
+ */
 public class UnrestrictedQueryExecutor extends UnrestrictedSessionRunner {
 
 	/** this query will be executed in an unrestricted scope **/

@@ -17,6 +17,13 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.BarcodeQRCode;
 import com.itextpdf.text.pdf.parser.PdfImageObject;
 
+/**
+ * QuickResponseCodingStrategy fournit une implémentation
+ * de {@link CodingStrategy} permettant l'utilisation d'un 
+ * QrCode pour le codage de l'identifiant
+ * @author acordier
+ * @date 13 avr. 2016
+ */
 public class QuickResponseCodingStrategy implements CodingStrategy {
 
 	public QuickResponseCodingStrategy() { }
