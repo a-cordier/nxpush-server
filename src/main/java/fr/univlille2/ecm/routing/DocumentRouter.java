@@ -60,12 +60,10 @@ public class DocumentRouter {
 	
 	
 	public void route() throws Exception {
-		if (hasCover()) {
-			move(sourceDocument, target.getRef());
-		} else if (hasPrefix()) {
-			move(sourceDocument, target.getRef());
-		}
-		throw new Exception("Unroutable document");
+		if(!hasCover())
+			if(!hasPrefix())
+				throw new Exception("Unroutable document");
+		move(sourceDocument, target.getRef());	
 	}
 	
 	private void move(final DocumentModel doc, final DocumentRef target) throws ClientException{
