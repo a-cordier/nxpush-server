@@ -2,11 +2,13 @@ package fr.univlille2.ecm.listeners;
 
 import static org.nuxeo.ecm.core.api.event.DocumentEventTypes.DOCUMENT_UPDATED;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreInstance;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -14,16 +16,20 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
+import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.api.repository.RepositoryManager;
 import org.nuxeo.ecm.core.event.Event;
 import org.nuxeo.ecm.core.event.EventListener;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
 import org.nuxeo.runtime.api.Framework;
 
+import fr.univlille2.ecm.cover.CoverParser;
+import fr.univlille2.ecm.cover.QuickResponseCodingStrategy;
+
 /** @author acordier */
 public class ScannerImportsListener implements EventListener {
 
-	private final static Log LOGGER = LogFactory
+	private final static Log logger = LogFactory
 			.getLog(ScannerImportsListener.class);
 	/* TODO /default-domain/dsi/Workspaces/Pole-Urbanisation-Modern/GED/scans */
 	private final static String INCOMING_FOLDER = Framework
@@ -35,6 +41,7 @@ public class ScannerImportsListener implements EventListener {
 		{
 			add(".pdf");
 			add(".tiff");
+			add(".tif");
 			add(".jpg");
 			add(".jpeg");
 			add(".gif");
@@ -62,12 +69,7 @@ public class ScannerImportsListener implements EventListener {
 						.startsWith(INCOMING_FOLDER))) {
 			return;
 		}
-		if (sourceDocument.getTitle().length() >= 6) {
-			prefix = sourceDocument.getTitle().substring(0, 6).toUpperCase();
-		} else {
-			return;
-		}
-		/* Checked */
+		
 
 		RepositoryManager repoManager = null;
 		try {
@@ -75,23 +77,27 @@ public class ScannerImportsListener implements EventListener {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		
+		if (sourceDocument.getTitle().length() >= 6) {
+			prefix = sourceDocument.getTitle().substring(0, 6).toUpperCase();
+		} else {
+			return;
+		}
+		
+		
+
 
 		final DocumentModel routedDocument = sourceDocument;
 		String repositoryName = repoManager.getDefaultRepository().getName();
 		CoreSession client = CoreInstance.getInstance().open(repositoryName, null);
-		/* Getting destination folder */
 		String query = buildQuery();
 		DocumentModelList queryResult = client.query(query);
-		LOGGER.debug("Documents found for this target id : "
-				+ queryResult.size());
 		DocumentModel uniqueResult = queryResult.size() == 1 ? queryResult
 				.get(0) : null;
 		if (uniqueResult != null) {
 			final DocumentRef destination = uniqueResult.getRef();
-
 			UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(
 					client) {
-
 				@Override
 				public void run() throws ClientException {
 					try { /* move document and remove name prefix */
@@ -108,7 +114,7 @@ public class ScannerImportsListener implements EventListener {
 						targetDocument.setPropertyValue("dc:title", name);
 						session.saveDocument(targetDocument);
 					} catch (ClientException e) {
-						LOGGER.error(String.format(
+						logger.error(String.format(
 								"Cannot move document, cause: %s ",
 								e.getMessage()));
 					}
@@ -117,6 +123,7 @@ public class ScannerImportsListener implements EventListener {
 			runner.runUnrestricted();
 		}
 	}
+	
 
 	private String buildQuery() {
 		StringBuilder sb = new StringBuilder();
@@ -138,5 +145,7 @@ public class ScannerImportsListener implements EventListener {
 		}
 		return false;
 	}
+	
+	
 
 }

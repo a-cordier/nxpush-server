@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-Vendor: Nuxeo
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Bundle-Version: 5.6
+Bundle-Name: nxpush-server
+Nuxeo-Component: OSGI-INF/contribs/actions-contrib.xml,OSGI-INF/contri
+ bs/types-contrib.xml,OSGI-INF/contribs/listeners-contrib.xml, OSGI-IN
+ F/contribs/layouts-contrib.xml
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: nxpush-server
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+

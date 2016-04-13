@@ -8,15 +8,8 @@
 			<category>SUBVIEW_UPPER_LIST</category>
 			<filter-id>filter@scanImports</filter-id>
 		</action>
-		<action id="fr.univlille2.ecm.actions.CoverGenerator"
-			link="#{coverGenerator.doGet}" order="200"
-			label="Page de couverture" >
-			<category>SUBVIEW_UPPER_LIST</category>
-			<filter-id>fr.univlille2.ecm.actions.Code128RepoIdGeneratorBean
-			</filter-id>
-		</action>
 	</extension>
-
+	
 	<extension target="org.nuxeo.ecm.platform.actions.ActionService"
 		point="filters">
 
@@ -25,13 +18,6 @@
 				<condition>#{scanRepoIdGenerator.accept()}</condition>
 			</rule>
 		</filter>
-		<filter id="fr.univlille2.ecm.actions.coverGenerator">
-			<rule grant="true">
-				<condition>#{coverGenerator.accept()}</condition>
-			</rule>
-		</filter>
 	</extension>
-
-
-
+	
 </component>
