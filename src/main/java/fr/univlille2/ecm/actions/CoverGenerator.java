@@ -61,7 +61,7 @@ public class CoverGenerator implements Serializable {
      */
     public String doGet() {
     	try {
-			WebUiFileDownloader.downloadFile(new CoverBuilder(documentManager, doc()).getCover(Constants.CODING_STRATEGY.newInstance()));
+			WebUiFileDownloader.downloadFile(new CoverBuilder(documentManager, doc()).build(Constants.CODING_STRATEGY.newInstance()));
 		} catch (IOException | ClientException e) {
 			logger.error(e);
 		} catch (InstantiationException e) {

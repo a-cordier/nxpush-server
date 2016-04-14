@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.ecm.automation.core.util.DocumentHelper;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -114,16 +115,17 @@ public class DocumentRouter {
 			try {
 				decodedString = parser.decode(content);
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error(e);
 			}
 			if (decodedString != null) {
 				IdRef ref = new IdRef(decodedString);
 				DocumentModel target = session.getDocument(ref);
 				if (target != null) {
 					this.target = target;
-					byte[] routedContent = removeFirstPage(content);
-					blob = new ByteArrayBlob(routedContent);
-					blobHolder.setBlob(blob);
+					byte[] cleanContent = removeFirstPage(content);
+					blob = new ByteArrayBlob(cleanContent);
+					DocumentHelper.addBlob(sourceDocument.getProperty("file:content"), blob);
+					sourceDocument = session.saveDocument(sourceDocument); 
 					return true;
 				}
 			}

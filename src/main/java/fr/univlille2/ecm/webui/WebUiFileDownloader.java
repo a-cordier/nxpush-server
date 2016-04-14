@@ -20,6 +20,7 @@ import fr.univlille2.ecm.cover.CoverBuilder;
  * 
  * @author acordier
  * @date 13 avr. 2016
+ * Déclenche le téléchargement de la page de courverture dans l'interface utilisateur
  */
 public class WebUiFileDownloader {
 	

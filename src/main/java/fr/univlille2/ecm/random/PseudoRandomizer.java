@@ -3,6 +3,11 @@ package fr.univlille2.ecm.random;
 
 import java.util.Random;
 
+/**
+ * 
+ * @author acordier
+ * @date 13 avr. 2016
+ */
 public class PseudoRandomizer {
 
 	private Random random;

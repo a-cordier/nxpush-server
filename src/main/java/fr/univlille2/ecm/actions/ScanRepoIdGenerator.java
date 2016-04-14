@@ -20,6 +20,11 @@ import fr.univlille2.ecm.model.ScanFolderUpdater;
  * 
  * @author acordier
  * @date 13 avr. 2016
+ * Lors d'un clic sur le bouton associé, génère une code court (4 chiffres) associé au document (conteneur) courant
+ * Ce conteneur peut être utilisé pour router le document lors de la numérisation
+ * Si le document est préfixé par le code court associé il sera routé vers le conteneur courant,
+ * sauf s'il présente une page de couverture.
+ * Le routage par page de couverture est prioritaire sur le routage par préfixe
  */
 @Name("scanRepoIdGenerator")
 @Scope(ScopeType.CONVERSATION)

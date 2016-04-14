@@ -2,6 +2,9 @@ package fr.univlille2.ecm.cover;
 
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.ImageRenderInfo;
 import com.itextpdf.text.pdf.parser.PdfImageObject;
@@ -20,7 +23,8 @@ public class CoverParser {
 	private Exception error;
 	private String decodedString;
 	private CodingStrategy decoder;
-
+	private static final Log logger = LogFactory.getLog(CoverParser.class);
+	
 	public CoverParser(CodingStrategy decoder) {
 		this.error = null;
 		this.decodedString = null;
@@ -35,7 +39,7 @@ public class CoverParser {
 
 			@Override
 			public void renderImage(ImageRenderInfo renderInfo) {
-
+				
 				PdfImageObject image = null;
 				try {
 					image = renderInfo.getImage();
@@ -54,6 +58,7 @@ public class CoverParser {
 
 			@Override
 			public void renderText(TextRenderInfo renderInfo) {
+				System.out.println(renderInfo.getText());
 			}
 
 			@Override

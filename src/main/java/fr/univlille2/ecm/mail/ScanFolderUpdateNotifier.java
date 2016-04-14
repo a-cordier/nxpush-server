@@ -8,10 +8,15 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+
+import fr.univlille2.ecm.actions.ScanRepoIdGenerator;
 /**
  * 
  * @author acordier
  * @date 13 avr. 2016
+ * Ce notifieur est utilisé pour expédier un mail contenant le code court lors de la génération de ce dernier
+ * dans un conteneur 
+ * @see ScanRepoIdGenerator
  */
 public class ScanFolderUpdateNotifier extends DocumentNotifier {
 

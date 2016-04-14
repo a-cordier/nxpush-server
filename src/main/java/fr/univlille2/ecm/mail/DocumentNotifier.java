@@ -17,6 +17,7 @@ import org.nuxeo.runtime.api.Framework;
  * 
  * @author acordier
  * @date 13 avr. 2016
+ * Classe générique utilisable pour envoyer des notifications par mail
  */
 public abstract class DocumentNotifier {
 	
